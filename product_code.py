@@ -37,30 +37,31 @@ def set_rules_vars():
     #each index can only have on value assigned to it
 
     # the digit in the first place can only be one or two
-    KB &= (-d1_zero & -d1_three & -d1_four)
+    KB &= (-d1_zero & -d1_three & -d1_four & (d1_one ^ d1_two))
     KB &= (d1_one >> (-d2_one & -d3_one & -d4_one & -d5_one & -d1_two))
     KB &= (d1_two >> (-d2_two & -d3_two & -d4_two & -d5_two & -d1_one))
 
     # the digit in the second place can only be two or four
-    KB &= (-d2_zero & -d2_one & -d2_three)
+    KB &= (-d2_zero & -d2_one & -d2_three & (d2_two ^ d2_four))
     KB &= (d2_two >> (-d2_four & -d1_two & -d3_two & -d4_two & -d5_two))
     KB &= (d2_four >> (-d2_two & -d1_four & -d3_four & -d4_four & -d5_four))
 
     # the digit in third place cannot be four
-    KB &= -d3_four
+    KB &= (-d3_four & (d3_zero ^ d3_one ^ d3_two ^ d3_three))
     KB &= d3_zero >> (-d2_zero & -d1_zero & -d4_zero & -d5_zero & -d3_one & -d3_two & -d3_three)
     KB &= d3_one >> (-d2_one & -d1_one & -d4_one & -d5_one & -d3_zero & -d3_two & -d3_three)
     KB &= d3_two >> (-d2_two & -d1_two & -d4_two & -d5_two & -d3_zero & -d3_one & -d3_three)
     KB &= d3_three >> (-d2_three & -d1_three & -d4_three & -d5_three & -d3_zero & -d3_two & -d3_one)
 
-    KB &= d4_zero >> (-d2_zero & -d3_zero & -d1_zero & -d5_zero & -d4_one & -d4_two & -d4_three & -d4_four)
-    KB &= d4_one >> (-d2_one & -d3_one & -d1_one & -d5_one & -d4_zero & -d4_two & -d4_three & -d4_four)
-    KB &= d4_two >> (-d2_two & -d3_two & -d1_two & -d5_two & -d4_one & -d4_zero & -d4_three & -d4_four)
-    KB &= d4_three >> (-d2_three & -d3_three & -d1_three & -d5_three & -d4_one & -d4_two & -d4_zero & -d4_four)
-    KB &= d4_four >> (-d2_four & -d3_four & -d1_four & -d5_four & -d4_one & -d4_two & -d4_three & -d4_zero)
+    KB &= (d4_zero ^ d4_three ^ d4_four)
+    KB &= d4_zero >> (-d2_zero & -d3_zero & -d1_zero & -d5_zero)
+    KB &= d4_one >> (-d2_one & -d3_one & -d1_one & -d5_one)
+    KB &= d4_two >> (-d2_two & -d3_two & -d1_two & -d5_two)
+    KB &= d4_three >> (-d2_three & -d3_three & -d1_three & -d5_three)
+    KB &= d4_four >> (-d2_four & -d3_four & -d1_four & -d5_four)
 
     #the digit in the fifth place cannot be zero
-    KB &= (-d5_zero)
+    KB &= (-d5_zero & (d5_one ^ d5_two ^ d5_three ^ d5_four))
     KB &= d5_one >> (-d2_one & -d3_one & -d4_one & -d1_one & -d5_two & -d5_three & -d5_four)
     KB &= d5_two >> (-d2_two & -d3_two & -d4_two & -d1_two & -d5_one & -d5_three & -d5_four)
     KB &= d5_three >> (-d2_three & -d3_three & -d4_three & -d1_three & -d5_two & -d5_one & -d5_four)
