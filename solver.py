@@ -90,7 +90,6 @@ def fwd_check(sol, variables, domains, KB, solver):
                     assign = -var
                 if not solver.solve(KB & assign).success:
                     domains[var].remove(truth_val)
-    print(domains)
 
 def backtrack_fwdcheck(sol, variables, domains, KB, solver):
     '''
